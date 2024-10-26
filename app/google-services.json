@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "615237665860",
+    "project_id": "greenrostov-727a0",
+    "storage_bucket": "greenrostov-727a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615237665860:android:492a091ea1924a08b76811",
+        "android_client_info": {
+          "package_name": "bob.colbaskin.greenrostov"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHyC0e0daKWB4xefRwigFRrOb_Oi6ofWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
