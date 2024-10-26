@@ -1,7 +1,8 @@
 package bob.colbaskin.greenrostov.di
 
 import android.content.Context
-import bob.colbaskin.greenrostov.data.local.dataStore.DataStoreRepository
+import bob.colbaskin.greenrostov.data.local.dataStore.DataStoreRepositoryImpl
+import bob.colbaskin.greenrostov.domain.local.DataStoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,7 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun provideDataStoreRepository(
-        @ApplicationContext context: Context
-    ) = DataStoreRepository(context = context)
+    fun provideDataStoreRepository(@ApplicationContext context: Context): DataStoreRepository {
+        return DataStoreRepositoryImpl(context = context)
+    }
 }

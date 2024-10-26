@@ -3,7 +3,7 @@ package bob.colbaskin.greenrostov.ui.screens.onBoarding
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bob.colbaskin.greenrostov.data.local.dataStore.DataStoreRepository
+import bob.colbaskin.greenrostov.domain.local.DataStoreRepository
 import bob.colbaskin.greenrostov.domain.network.AuthRepository
 import bob.colbaskin.greenrostov.ui.navigation.Screen
 import kotlinx.coroutines.flow.first

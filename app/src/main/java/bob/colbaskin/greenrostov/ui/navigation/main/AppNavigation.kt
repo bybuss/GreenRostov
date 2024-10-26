@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import bob.colbaskin.greenrostov.ui.navigation.Screen
+import bob.colbaskin.greenrostov.ui.screens.EventsScreen.EventsScreen
 import bob.colbaskin.greenrostov.ui.screens.auth.AuthViewModel
 import bob.colbaskin.greenrostov.ui.screens.auth.LoginScreen
 import bob.colbaskin.greenrostov.ui.screens.auth.SignUpScreen
@@ -59,7 +60,9 @@ fun AppNavigation(
             composable(Screen.Profile.route) {
                 ProfileScreen(modifier)
             }
-            // Добавьте другие экраны, если необходимо
+            composable(Screen.Events.route) {
+                EventsScreen()
+            }
         }
     }
 }

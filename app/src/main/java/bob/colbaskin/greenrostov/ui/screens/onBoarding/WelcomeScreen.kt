@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,30 +38,40 @@ fun WelcomeScreen(
     )
     val pagerState = rememberPagerState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
         HorizontalPager(
-            modifier = Modifier.weight(10f),
             count = pages.size,
             state = pagerState,
-            verticalAlignment = Alignment.Top
+            modifier = Modifier.fillMaxSize()
         ) { position ->
             PagerScreen(onBoardingPage = pages[position])
         }
+
         HorizontalPagerIndicator(
+            pagerState = pagerState,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .weight(1f),
-            pagerState = pagerState
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 64.dp)
         )
-        FinishButton(
-            modifier = Modifier.weight(1f),
-            pagerState = pagerState
-        ) {
-            welcomeViewModel.saveOnBoardingState(completed = true)
-            navController.popBackStack()
-            navController.navigate(Screen.Home.route) {
-                // Удаляем все предыдущие экраны из стека
-                popUpTo(Screen.Welcome.route) { inclusive = true }
+
+        if (pagerState.currentPage == pages.size - 1) {
+            Button(
+                onClick = {
+                    welcomeViewModel.saveOnBoardingState(completed = true)
+                    navController.popBackStack()
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Welcome.route) { inclusive = true }
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = Color.White
+                ),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 16.dp)
+            ) {
+                Text(text = "Продолжить")
             }
         }
     }
@@ -68,20 +79,12 @@ fun WelcomeScreen(
 
 @Composable
 fun PagerScreen(onBoardingPage: OnBoardingPage) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .fillMaxHeight(0.7f),
-            painter = painterResource(id = onBoardingPage.image),
-            contentDescription = "Pager Image"
-        )
-    }
+    Image(
+        painter = painterResource(id = onBoardingPage.image),
+        contentDescription = "Onboarding Image",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 @ExperimentalAnimationApi

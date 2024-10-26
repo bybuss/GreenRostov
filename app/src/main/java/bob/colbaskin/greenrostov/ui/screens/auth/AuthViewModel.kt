@@ -45,8 +45,10 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _authState.value = AuthState.Loading
             val result = authRepository.login(email, password)
+            val token = authRepository.getToken()
             if (result) {
                 _authState.value = AuthState.Authenticated
+                Log.d("AuthViewModel", "${token}")
             } else {
                 _authState.value = AuthState.Error("Ошибка входа. Проверьте данные.")
             }
