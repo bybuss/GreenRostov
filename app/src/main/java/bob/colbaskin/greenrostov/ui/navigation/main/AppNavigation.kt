@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import bob.colbaskin.greenrostov.data.models.taskList
 import bob.colbaskin.greenrostov.ui.navigation.Screen
 import bob.colbaskin.greenrostov.ui.screens.EventsScreen.EventsScreen
 import bob.colbaskin.greenrostov.ui.screens.auth.AuthViewModel
@@ -61,7 +62,13 @@ fun AppNavigation(
                 ProfileScreen(modifier)
             }
             composable(Screen.Events.route) {
-                EventsScreen()
+                EventsScreen(
+                    tasks = taskList,
+                    currentXp = 250,
+                    maxXp = 300,
+                    currentReward = "10 🍁",
+                    level = "Level - 1"
+                )
             }
         }
     }

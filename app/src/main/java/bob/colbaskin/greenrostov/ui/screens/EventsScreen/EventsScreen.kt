@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,16 +25,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import bob.colbaskin.greenrostov.R
+import bob.colbaskin.greenrostov.data.models.TaskData
+import bob.colbaskin.greenrostov.data.models.taskList
 
 /**
  * @author bybuss
  */
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventsScreen() {
+fun EventsScreen(
+    tasks: List<TaskData>,
+    currentXp: Int,
+    maxXp: Int,
+    currentReward: String,
+    level: String
+) {
     Scaffold(
-        topBar = { TopAppBar() }
+        topBar = { TopAppBar(currentXp = currentXp, maxXp = maxXp, currentReward = currentReward, level = level) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -42,44 +48,22 @@ fun EventsScreen() {
                 .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(8.dp))
-            TaskCard(
-                title = "Сдать батарейки",
-                description = "Ваша задача заключается в том, чтобы отнести определённое количество батареек на специальный пункт.",
-                colorStart = Color(0xFFE8B900),
-                colorEnd = Color.Black,
-                xp = "30 xp",
-                reward = "10 🍁",
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TaskCard(
-                title = "Сортировка мусора",
-                description = "Ваша задача заключается в том, чтобы на специальном пункте отсортировать свой мусор.",
-                colorStart = Color(0xFF6014EB),
-                colorEnd = Color(0xFF822A74),
-                xp = "60 xp",
-                reward = "15 🍁",
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TaskCard(
-                title = "Сдать бутылки",
-                description = "Ваша задача заключается в том, чтобы сдать пластиковые бутылки на специальном пункте.",
-                colorStart = Color(0xFFD25458),
-                colorEnd = Color(0xFF343E5B),
-                xp = "45 xp",
-                reward = "12 🍁",
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+            tasks.forEach { task ->
+                TaskCard(
+                    taskData = task,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }
 
 @Composable
-fun TopAppBar() {
+fun TopAppBar(currentXp: Int, maxXp: Int, currentReward: String, level: String) {
+    val progress = (currentXp.toFloat() / maxXp.toFloat()).coerceIn(0f, 1f)
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.End,
@@ -91,7 +75,7 @@ fun TopAppBar() {
                 .padding(8.dp),
         ) {
             Text(
-                text = "10 🍁",
+                text = currentReward,
                 color = Color.Black,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold
@@ -108,7 +92,7 @@ fun TopAppBar() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Row() {
+                Row {
                     Text(
                         text = "Осенний Сезон 🍁",
                         color = Color.White,
@@ -117,7 +101,7 @@ fun TopAppBar() {
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = "Level - 1",
+                        text = level,
                         color = Color(0xFFFFD700),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
@@ -125,21 +109,21 @@ fun TopAppBar() {
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 LinearProgressIndicator(
-                    progress = { 0.50f },
+                    progress = { progress },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(6.dp),
                     color = Color.Green,
                 )
-                Row() {
+                Row {
                     Text(
-                        text = "50 xp",
+                        text = "$currentXp xp",
                         color = Color.White,
                         fontSize = 12.sp
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = "300 xp",
+                        text = "$maxXp xp",
                         color = Color.White,
                         fontSize = 12.sp
                     )
@@ -151,50 +135,44 @@ fun TopAppBar() {
 
 @Composable
 fun TaskCard(
-    title: String,
-    description: String,
-    colorStart: Color,
-    colorEnd: Color,
-    xp: String,
-    reward: String,
+    taskData: TaskData,
     modifier: Modifier = Modifier
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var showQrCode by remember { mutableStateOf(false) }
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .background(
-                brush = Brush.horizontalGradient(listOf(colorStart, colorEnd)),
+                brush = Brush.horizontalGradient(listOf(taskData.colorStart, taskData.colorEnd)),
                 shape = RoundedCornerShape(16.dp)
             )
             .padding(16.dp)
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = title,
+                text = taskData.title,
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = description,
+                text = taskData.description,
                 color = Color.White.copy(alpha = 0.8f),
                 fontSize = 12.sp
             )
         }
         Column(horizontalAlignment = Alignment.End) {
             Text(
-                text = reward,
+                text = taskData.reward.toString(),
                 color = Color.Yellow,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.End
             )
             Text(
-                text = xp,
+                text = taskData.xp.toString(),
                 color = Color.Yellow,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -203,7 +181,7 @@ fun TaskCard(
             Spacer(modifier = Modifier.height(8.dp))
             IconButton(onClick = { showDialog = true }) {
                 Icon(
-                    imageVector = Icons.Default.ArrowForward,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                     contentDescription = "Go",
                     tint = Color.White,
                     modifier = Modifier.size(24.dp)
@@ -227,7 +205,7 @@ fun TaskCard(
             },
             title = {
                 Text(
-                    text = title,
+                    text = taskData.title,
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
@@ -238,15 +216,15 @@ fun TaskCard(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = description,
+                        text = taskData.description,
                         color = Color.White.copy(alpha = 0.8f),
                         fontSize = 14.sp
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Row {
-                        Text(text = "Награда: $reward", color = Color.Yellow, fontSize = 14.sp)
+                        Text(text = "Награда: ${taskData.reward} \uD83C\uDF41", color = Color.Yellow, fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(16.dp))
-                        Text(text = "Опыт: $xp", color = Color.Yellow, fontSize = 14.sp)
+                        Text(text = "Опыт: ${taskData.xp} xp", color = Color.Yellow, fontSize = 14.sp)
                     }
                     if (showQrCode) {
                         Spacer(modifier = Modifier.height(4.dp))
@@ -264,16 +242,20 @@ fun TaskCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = Brush.horizontalGradient(listOf(colorStart, colorEnd)),
+                    brush = Brush.horizontalGradient(listOf(taskData.colorStart, taskData.colorEnd)),
                     shape = RoundedCornerShape(16.dp)
                 )
         )
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
 fun PreviewEventsScreen() {
-    EventsScreen()
+    EventsScreen(
+        tasks = taskList,
+        currentXp = 250,
+        maxXp = 300,
+        currentReward = "10 🍁",
+        level = "Level - 1"
+    )
 }

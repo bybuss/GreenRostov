@@ -31,7 +31,6 @@ class SplashViewModel @Inject constructor(
                     startDestination.value = Screen.Login.route
                 }
             } else {
-                // Если гайд не завершен, устанавливаем WelcomeScreen
                 startDestination.value = Screen.Welcome.route
             }
             isLoading.value = false

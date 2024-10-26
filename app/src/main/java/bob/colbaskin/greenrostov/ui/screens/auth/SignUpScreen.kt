@@ -36,12 +36,15 @@ fun SignUpScreen(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("") }
     val authState by authViewModel.authState.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(authState) {
         when (authState) {
-            is AuthState.Authenticated -> navController.navigate(Screen.Home.route)
+            is AuthState.Authenticated -> {}
             is AuthState.Error -> Toast.makeText(
                 context, (authState as AuthState.Error).message, Toast.LENGTH_SHORT
             ).show()
@@ -56,12 +59,18 @@ fun SignUpScreen(
     ) {
         Text(text = "Регистрация", fontSize = 32.sp)
         Spacer(modifier = Modifier.height(16.dp))
+        CustomTextField(label = "Firstname", value = firstName, onValueChange = { firstName = it })
+        Spacer(modifier = Modifier.height(16.dp))
+        CustomTextField(label = "Lastname", value = lastName, onValueChange = { lastName = it })
+        Spacer(modifier = Modifier.height(16.dp))
+        CustomTextField(label = "Address", value = address, onValueChange = { address = it })
+        Spacer(modifier = Modifier.height(16.dp))
         CustomTextField(label = "Email", value = email, onValueChange = { email = it })
         Spacer(modifier = Modifier.height(8.dp))
         CustomTextField(label = "Password", value = password, onValueChange = { password = it })
         Spacer(modifier = Modifier.height(8.dp))
         Button(
-            onClick = { authViewModel.signUp(email, password) },
+            onClick = { authViewModel.signUp(firstName, lastName, address, email, password) },
             enabled = authState !is AuthState.Loading
         ) {
             Text(text = "Создать аккаунт")
