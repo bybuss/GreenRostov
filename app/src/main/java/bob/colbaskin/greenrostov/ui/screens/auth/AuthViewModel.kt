@@ -106,7 +106,7 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             authRepository.logout()
             _authState.value = AuthState.Unauthenticated
-            Log.d("AuthViewModel", "User signed out and token cleared")
+            Log.d("AuthViewModel", "User signed out")
         }
     }
 }

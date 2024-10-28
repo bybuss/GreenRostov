@@ -49,18 +49,12 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    @Named("token")
-    fun provideBaseUrl(dataStoreRepository: DataStoreRepository): String {
-        return runBlocking { dataStoreRepository.getToken().first() }
-    }
-
-    @Provides
-    @Singleton
     fun provideOkHttpClient(
-        @Named("token") token: String
+        dataStoreRepository: DataStoreRepository
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(Interceptor { chain ->
+                val token = runBlocking { dataStoreRepository.getToken().first() }
                 Log.d("AuthViewModel", "token used in provideOkHttpClient: $token")
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", token)

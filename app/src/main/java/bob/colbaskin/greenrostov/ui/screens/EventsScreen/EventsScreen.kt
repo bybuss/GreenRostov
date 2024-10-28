@@ -8,6 +8,8 @@ import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.DonutLarge
+import androidx.compose.material.icons.filled.SwapHorizontalCircle
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -165,14 +167,14 @@ fun TaskCard(
         }
         Column(horizontalAlignment = Alignment.End) {
             Text(
-                text = taskData.reward.toString(),
+                text = "${taskData.reward} \uD83C\uDF41",
                 color = Color.Yellow,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.End
             )
             Text(
-                text = taskData.xp.toString(),
+                text = "${taskData.xp} xp",
                 color = Color.Yellow,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -225,6 +227,15 @@ fun TaskCard(
                         Text(text = "Награда: ${taskData.reward} \uD83C\uDF41", color = Color.Yellow, fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Опыт: ${taskData.xp} xp", color = Color.Yellow, fontSize = 14.sp)
+                        Spacer(modifier = Modifier.width(16.dp))
+                        IconButton(onClick = {  }) {
+                            Icon(
+                                imageVector = Icons.Default.SwapHorizontalCircle,
+                                contentDescription = "Go",
+                                tint = Color.White,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
                     }
                     if (showQrCode) {
                         Spacer(modifier = Modifier.height(4.dp))
@@ -242,7 +253,12 @@ fun TaskCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = Brush.horizontalGradient(listOf(taskData.colorStart, taskData.colorEnd)),
+                    brush = Brush.horizontalGradient(
+                        listOf(
+                            taskData.colorStart,
+                            taskData.colorEnd
+                        )
+                    ),
                     shape = RoundedCornerShape(16.dp)
                 )
         )

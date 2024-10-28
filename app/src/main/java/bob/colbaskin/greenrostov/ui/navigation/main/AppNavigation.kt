@@ -18,6 +18,7 @@ import bob.colbaskin.greenrostov.ui.screens.auth.SignUpScreen
 import bob.colbaskin.greenrostov.ui.screens.home.HomeScreen
 import bob.colbaskin.greenrostov.ui.screens.onBoarding.WelcomeScreen
 import bob.colbaskin.greenrostov.ui.screens.profile.ProfileScreen
+import bob.colbaskin.greenrostov.ui.screens.profile.ProfileViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 
@@ -31,10 +32,10 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String
+    startDestination: String,
 ) {
     val authViewModel: AuthViewModel = hiltViewModel()
-    val bottomNavRoutes = bottomNavItems.map { it.route }
+    val profileViewModel: ProfileViewModel = hiltViewModel()
 
     Scaffold(
         bottomBar = {
@@ -59,7 +60,7 @@ fun AppNavigation(
                 HomeScreen(modifier, authViewModel)
             }
             composable(Screen.Profile.route) {
-                ProfileScreen(modifier)
+                ProfileScreen(modifier, profileViewModel)
             }
             composable(Screen.Events.route) {
                 EventsScreen(
