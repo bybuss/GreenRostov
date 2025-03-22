@@ -16,21 +16,21 @@
 ## Скриншоты
 
 ### Приветственный экарн
-<p align="center">
+<p align="left">
   <img src="screenshots/onboarding1.png" alt="Экран приветствия 1" width="125" />
   <img src="screenshots/onboarding2.png" alt="Экран приветствия 2" width="125" />
   <img src="screenshots/onboarding3.png" alt="Экран приветствия 3" width="125" />
 </p>
 
 ### Светлая тема
-<p align="center">
+<p align="left">
   <img src="screenshots/light/login-light.png" alt="Экран входа - Светлая тема" width="125" />
   <img src="screenshots/light/tasks-light.png" alt="Экологические задания - Светлая тема" width="125" />
   <img src="screenshots/light/profile-light.png" alt="Профиль - Светлая тема" width="125" />
 </p>
 
 ### Темная тема
-<p align="center">
+<p align="left">
   <img src="screenshots/dark/login-dark.png" alt="Экран входа - Темная тема" width="125" />
   <img src="screenshots/dark/tasks-dark.png" alt="Экологические задания - Темная тема" width="125" />
   <img src="screenshots/dark/profile-dark.png" alt="Профиль - Темная тема" width="125" />
